@@ -166,4 +166,13 @@ public class Main {
         }
     }
 
+
+}
+
+class Parent{
+
+}
+
+class Child extends Parent{
+
 }

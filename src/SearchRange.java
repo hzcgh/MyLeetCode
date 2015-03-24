@@ -1,70 +1,59 @@
 /**
  * Created by fchen on 2/21/2015.
- * The solution below is incorrect/inefficient. See http://fihopzz.blogspot.com/2013/07/enter-post-title-here-binary-search-and.html
+ * See the explanation here:
+ * https://leetcode.com/discuss/18242/clean-iterative-solution-binary-searches-with-explanation
  *
  */
 public class SearchRange {
+
     public int[] searchRange(int[] A, int target) {
-        int index = binaryRangeSearch(A, target, 0, A.length-1);
-        if (index == -1)
+        if (A == null || A.length == 0)
             return new int[]{-1,-1};
 
-        int start=index;
-        int end = index;
-        for(;end<A.length;end++)
-        {
-            if (A[end]!=target)
-                break;
-        }
-        for(;start>=0;start--)
-        {
-            if(A[start]!=target)
-                break;
-        }
-        return new int[]{start+1, end-1 };
+        int left = searchLeftRange(A, target);
+        if (left == -1)
+            return new int[]{-1, -1};
+
+        int right = searchRightRange(A, target);
+
+        return new int[]{left, right};
     }
 
-    public int binaryRangeSearch(int[] A, int target, int start, int end)
-    {
-        if (start>end)
-            return -1;
-        if (A[start] == A[end])
-        {
-            if (A[start] == target)
-                return start;
-            else
-                return -1;
+    public int searchLeftRange(int[] A, int target){
+        int start = 0;
+        int end = A.length - 1;
+
+        while(end > start){
+            int mid = start + (end-start)/2;
+            if (A[mid] < target){
+                start = mid +1 ;
+            } else {
+                end = mid;
+            }
         }
 
-
-
-        int mid = (start+end)/2;
-        if (A[mid] > target)
-        {
-            return binaryRangeSearch(A, target, start, mid-1);
-        } else if (A[mid] < target)
-        {
-            return binaryRangeSearch(A, target, mid + 1, end);
-        }
-        else{
-            return mid;
-        }
-
+        return A[end] == target? end: -1;
     }
 
-/*    public int binarySearchLeftBoundary(int[] A, int target, int start, int end)
-    {
-        if (start > end)
-            return -1;
-        int mid  = (start+end)/2;
-        if (A[mid] > target ){
-            return binarySearchLeftBoundary(A, target, start, mid);
-        } else
-    }*/
+    public int searchRightRange(int[] A, int target){
+        int start = 0;
+        int end = A.length -1;
+
+        while(end > start){
+            int mid =  start + (end - start)/2 + 1;  // Make mid biased to the right, so that this won't make the search range stuck
+            if (A[mid] > target){
+                end = mid - 1;
+            } else {
+                start = mid;
+            }
+        }
+
+        return A[start] == target? start: -1;
+    }
 
     public static void main(String[] args) {
         SearchRange searchRange = new SearchRange();
-        int[] ret = (searchRange.searchRange(new int[]{5, 7, 7, 8, 8, 10},8));
+        int[] ret = (searchRange.searchRange(new int[]{5, 7, 7, 8, 8, 10/*2,2*/},8));
         System.out.println(ret[0]+","+ret[1]);
     }
 }
