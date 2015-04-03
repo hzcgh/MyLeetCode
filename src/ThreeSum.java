@@ -3,88 +3,66 @@ import com.sun.deploy.util.StringUtils;
 import java.util.*;
 
 /**
- *  https://oj.leetcode.com/problems/3sum/
+ * https://oj.leetcode.com/problems/3sum/
+ * http://blog.csdn.net/linhuanmars/article/details/19711651
  *
- *  FIXME Not correct!
+ * O(n^2) solution without using HashMap, and no Set is used to avoid duplicate
+ *
+ * for each element A, run a two sum algorithm on the the elements which are at the right of A, to find all the pairs can be added up to 0-A's value
+ *
  */
 
-/* Solution Copy from LeetCode forum
-The idea is to sort an input array and then run through all indices of a possible first element of a triplet.
-For each possible first element we make a standard bi-directional 2Sum sweep of the remaining part of the array.
-Also we want to skip equal elements to avoid duplicates in the answer without making a set or smth like that.
-
-public List<List<Integer>> threeSum(int[] num) {
-    Arrays.sort(num);
-    List<List<Integer>> res = new LinkedList<>();
-    for (int i = 0; i < num.length-2; i++) {
-        if (i == 0 || (i > 0 && num[i] != num[i-1])) {
-            int lo = i+1, hi = num.length-1, sum = 0 - num[i];
-            while (lo < hi) {
-                if (num[lo] + num[hi] == sum) {
-                    res.add(Arrays.asList(num[i], num[lo], num[hi]));
-                    while (lo < hi && num[lo] == num[lo+1]) lo++;
-                    while (lo < hi && num[hi] == num[hi-1]) hi--;
-                    lo++; hi--;
-                } else if (num[lo] + num[hi] < sum) lo++;
-                else hi--;
-           }
-        }
-    }
-    return res;
-}
- */
 public class ThreeSum {
-    public List<List<Integer>> threeSum(int[] num) {
-        if (num.length<3)
-            return new ArrayList<>();
+    public List<List<Integer>> threeSum(int[] sum) {
+        List<List<Integer>> ret = new ArrayList<>();
+        if (sum == null || sum.length < 3)
+            return ret;
 
-        Arrays.sort(num);
-        Set<List<Integer>> ret = new HashSet<>();
-        int p1 = 0;
-        int p2= 1;
-        int p3 = num.length-1;
+        Arrays.sort(sum);
+        for (int i = 0; i < sum.length - 2; i++) {
+            if (i>0 && sum[i] == sum[i-1])
+                continue;
 
-        boolean canP2move = true;
+            List<List<Integer>> results = twoSum(sum, i+1, sum.length-1, 0-sum[i]);
+            ret.addAll(results);
+        }
+        return ret;
+    }
 
-        while(p3>p1 && p3>p2 && p2>p1){
-            if (num[p1]+num[p2]+num[p3] == 0){
-                List<Integer> sorted = sortedList(num[p1],num[p2],num[p3]);
-                ret.add(sorted);
-                p3--;
-            } else if (num[p1]+num[p2]+num[p3]>0){
-                p3--;
+    // Modified version of twoSum
+    public List<List<Integer>> twoSum(int[] sum, int start, int end, int target) {
+        List<List<Integer>> results = new ArrayList<>();
+        while (end > start) {
+            if (sum[start] + sum[end] == target) {
+                List<Integer> result = new ArrayList<>();
+                result.add(0-target);
+                result.add(sum[start]);
+                result.add(sum[end]);
+                results.add(result);
+
+                start++;
+                end--;
+
+                while(start<end && sum[start] == sum[start-1])
+                    start++;
+                while(start<end && sum[end] == sum[end+1])
+                    end--;
+
+            } else if (sum[start] + sum[end] > target) {
+                end--;
             } else {
-                if (canP2move){
-                    if (p3-p2 > 1)
-                        p2++;
-                    else {
-                        canP2move = false;
-                        p1++;
-                    }
-                } else
-                {
-                    p1++;
-                }
+                start++;
             }
         }
+        return results;
 
-        return new ArrayList<>(ret);
-    }
-
-    private List<Integer> sortedList(int a, int b, int c){
-        List<Integer> list = new ArrayList<>();
-        list.add(a);
-        list.add(b);
-        list.add(c);
-        Collections.sort(list);
-        return list;
     }
 
     public static void main(String[] args) {
         ThreeSum t = new ThreeSum();
-        List<List<Integer>> ret = t.threeSum(new int[]{-1, 0,0,1, 1, 2 ,-1 ,-4});
-        for(List<Integer> l:ret){
-            System.out.println(l.get(0)+" "+l.get(1)+" "+l.get(2));
+        List<List<Integer>> ret = t.threeSum(new int[]{-1, 0, 0, 1, 1, 2, -1, -4});
+        for (List<Integer> l : ret) {
+            System.out.println(l.get(0) + " " + l.get(1) + " " + l.get(2));
         }
     }
 }
