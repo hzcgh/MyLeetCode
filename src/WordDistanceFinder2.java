@@ -1,6 +1,9 @@
 /**
  * http://www.geeksforgeeks.org/find-the-minimum-distance-between-two-numbers/
  * O(n) time complexity
+ *
+ * This solution is too complex, See solution for merge sorted array O(m+n) or Binary Search O(nlog m)
+ * http://www.fgdsb.com/2015/01/13/word-distance/
  */
 public class WordDistanceFinder2 {
     public int minDistance(int[] array, int x, int y){

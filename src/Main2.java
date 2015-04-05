@@ -17,5 +17,10 @@ public class Main2 {
         stack.add(2);
 
         stack.stream().forEach(System.out::println);
+
+        Set<String> set = new HashSet<>();
+        for(String s:set){
+
+        }
     }
 }
