@@ -1,3 +1,5 @@
+import utils.ListNode;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
@@ -7,20 +9,7 @@ import java.util.Map;
  * https://leetcode.com/problems/reorder-list/
  */
 public class ReorderList {
-    static class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-
-        public ListNode setNext(ListNode next) {
-            this.next = next;
-            return this;
-        }
-    }
 
     Map<ListNode, ListNode> previousNodes = new HashMap<>();
 

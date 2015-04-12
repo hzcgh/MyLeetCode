@@ -1,19 +1,9 @@
+import utils.ListNode;
+
 /**
  * https://leetcode.com/problems/reverse-linked-list-ii/
  */
 public class ReverseLinkedListTwo {
-
-    public class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-    }
-
-
     // 8:15 - 8:50
 
     public class Solution {

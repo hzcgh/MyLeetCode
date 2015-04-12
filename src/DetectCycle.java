@@ -1,3 +1,5 @@
+import utils.ListNode;
+
 /**
  * Created by Peter on 3/10/2015.
  */
@@ -28,15 +30,7 @@ public class DetectCycle {
         return cycle;
     }
 
-    static class ListNode {
-        int val;
-        ListNode next;
 
-        ListNode(int x) {
-            val = x;
-            next = null;
-        }
-    }
 
     public static void main(String[] args) {
         ListNode n1 = new ListNode(1);

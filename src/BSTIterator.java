@@ -1,3 +1,5 @@
+import utils.TreeNode;
+
 import java.util.Stack;
 
 /**
@@ -5,12 +7,6 @@ import java.util.Stack;
  */
 
 public class BSTIterator {
-    public static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-        TreeNode(int x) { val = x; }
-    }
 
     Stack<TreeNode> stack;
 
