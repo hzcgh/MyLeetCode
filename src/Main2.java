@@ -1,8 +1,8 @@
 import utils.ListNode;
 import utils.TreeNode;
+import utils.Util;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Created by Peter on 3/21/2015.
@@ -89,12 +89,108 @@ public class Main2 {
 
         map.get('9').forEach(System.out::print);*/
 
-        boolean[][] tmp = new boolean[1][1];
-        System.out.println(tmp[0][0]);
+/*        boolean[][] tmp = new boolean[1][1];
+        System.out.println(tmp[0][0]);*/
+/*
+        ListNode head = Util.createListFromArray(new Integer[]{1,2,3,4});
+        head = reverseLinkedListRecursive(head);
+        Util.printList(head);*/
+
+        System.out.println(reverseString("12345688888x"));
+
     }
 
-    public static void changeVal(TreeNode t){
+    public static String reverseString(String str){
+        int start = 0;
+        StringBuilder builder = new StringBuilder();
+
+        while(start<str.length()){
+            while(start<str.length() && !Character.isLetter(str.charAt(start))){
+                builder.append(str.charAt(start));
+                start++;
+            }
+            if (start<str.length()){
+                int end = start;
+                while(end+1<str.length() && Character.isLetter(str.charAt(end+1)))
+                    end++;
+                builder.append(reverseWord(str.substring(start, end+1)));
+                start = end+1;
+            }
+        }
+        return builder.toString();
+    }
+
+    private static String reverseWord(String word){
+        StringBuilder sb = new StringBuilder(word);
+        return sb.reverse().toString();
+    }
+
+
+    public static ListNode reverseLinkedListRecursive(ListNode head){
+        if (head == null || head.next == null)
+            return  head;
+        ListNode newHead = reverseLinkedListRecursive(head.next);
+        head.next.next = head;
+        head.next = null;
+        return newHead;
+
+    }
+
+    public static void changeVal(TreeNode t) {
 
         t = new TreeNode(3);
     }
+
+    public static int getNthPrime(int n) {
+        switch (n) {
+            case 1:
+                return 2;
+            case 2:
+                return 3;
+        }
+
+        List<Integer> primes = new ArrayList<Integer>() {{
+            add(2);
+            add(3);
+        }};
+        int number = 5;
+
+        for (n -= 2; n > 0; number += 2) {
+            int tmp = number;
+            boolean isPrime = primes.stream().allMatch(i -> tmp % i != 0);
+            if (isPrime) {
+                primes.add(number);
+                n--;
+            }
+        }
+        return primes.get(primes.size() - 1);
+    }
+
+    public static void calcPrime(int inp) {
+        ArrayList<Integer> arr = new ArrayList<Integer>();
+        arr.add(2);
+        arr.add(3);
+
+        int counter = 4;
+
+        while(arr.size() < inp) {
+            if(counter % 2 != 0 && counter%3 != 0) {
+                int temp = 4;
+                while(temp*temp <= counter) {
+                    if(counter % temp == 0)
+                        break;
+                    temp ++;
+                }
+                if(temp*temp > counter) {
+                    arr.add(counter);
+                }
+            }
+            counter++;
+        }
+
+        System.out.println("finish" +arr.get(inp-1));
+    }
+
+
 }
+

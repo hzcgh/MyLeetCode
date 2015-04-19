@@ -114,6 +114,9 @@ public class Main {
         Arrays.stream(strings).forEach(s->testCount.merge(s,1,(i,j)->i+j));
        // testCount.entrySet().forEach(System.out::println);
 
+        for(String key:testCount.keySet()){
+        }
+
         Integer value = testCount.computeIfPresent("z", (k, v) -> v - 1);
         System.out.println(value);
 
